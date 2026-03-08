@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С 8 Марта!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            overflow: hidden;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe0f0 50%, #ffd6eb 100%);
+            height: 100vh;
+            position: relative;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .video-container {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(255, 105, 180, 0.3);
+            background: rgba(255, 255, 255, 0.3);
+            padding: 10px;
+        }
+
+        video {
+            display: block;
+            border-radius: 15px;
+            max-width: 90vw;
+            max-height: 70vh;
+            object-fit: cover;
+        }
+
+        .greeting {
+            margin-top: 30px;
+            text-align: center;
+            color: #d4648a;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+        }
+
+        .greeting h1 {
+            font-size: 4em;
+            margin-bottom: 10px;
+            font-style: italic;
+            animation: fadeInDown 2s ease-out;
+        }
+
+        .greeting p {
+            font-size: 1.5em;
+            animation: fadeInUp 2s ease-out;
+        }
+
+        /* Падающие лепестки */
+        .petal {
+            position: fixed;
+            top: -10%;
+            pointer-events: none;
+            animation: fall linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(360deg);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Декоративные элементы */
+        .sakura-branch {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0.3;
+        }
+
+        .controls {
+            margin-top: 20px;
+            z-index: 20;
+        }
+
+        button {
+            background: linear-gradient(135deg, #ff85a2, #d4648a);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1em;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(212, 100, 138, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 100, 138, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .greeting h1 {
+                font-size: 2.5em;
+            }
+            .greeting p {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Контейнер для лепестков -->
+    <div id="petals-container"></div>
+
+    <div class="container">
+        <div class="video-container">
+            <!-- ЗАМЕНИТЕ 'your-video.mp4' НА ПУТЬ К ВАШЕМУ ВИДЕО -->
+            <video id="sakuraVideo" autoplay loop muted playsinline>
+                <source src="гоша.mp4" type="video/mp4">
+                Ваш браузер не поддерживает видео.
+            </video>
+        </div>
+
+        <div class="greeting">
+            <h1>🌸 С 8 Марта! 🌸</h1>
+            <p>Дорогая мама, бабушка!<br>Пусть ваша жизнь будет такой же прекрасной, как цветущая сакура!</p>
+        </div>
+
+        <div class="controls">
+            <button onclick="togglePlay()">▶️ Пауза/Старт</button>
+            <button onclick="resetVideo()">🔄 Заново</button>
+        </div>
+    </div>
+
+    <script>
+        // Замедление видео в 2 раза
+        const video = document.getElementById('sakuraVideo');
+        video.playbackRate = 0.5; // Скорость в 2 раза медленнее
+
+        // Функция создания падающих лепестков
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            
+            // Случайный размер лепестка
+            const size = Math.random() * 20 + 10;
+            petal.style.width = size + 'px';
+            petal.style.height = size + 'px';
+            
+            // Случайная позиция по горизонтали
+            petal.style.left = Math.random() * 100 + 'vw';
+            
+            // Случайная продолжительность падения
+            const duration = Math.random() * 5 + 5;
+            petal.style.animationDuration = duration + 's';
+            
+            // Прозрачность
+            petal.style.opacity = Math.random() * 0.6 + 0.4;
+            
+            // SVG лепесток сакуры
+            petal.innerHTML = `
+                <svg viewBox="0 0 100 100" style="width:100%;height:100%;">
+                    <path d="M50,0 C60,20 80,30 100,40 C80,50 60,60 50,100 C40,60 20,50 0,40 C20,30 40,20 50,0" 
+                          fill="#ffb6c1" opacity="0.8"/>
+                </svg>
+            `;
+            
+            document.getElementById('petals-container').appendChild(petal);
+            
+            // Удаляем лепесток после падения
+            setTimeout(() => {
+                petal.remove();
+            }, duration * 1000);
+        }
+
+        // Создаем лепестки каждые 300мс
+        setInterval(createPetal, 300);
+
+        // Управление видео
+        function togglePlay() {
+            if (video.paused) {
+                video.play();
+            } else {
+                video.pause();
+            }
+        }
+
+        function resetVideo() {
+            video.currentTime = 0;
+            video.play();
+        }
+
+        // Автоматическое воспроизведение при загрузке
+        window.addEventListener('load', () => {
+            video.playbackRate = 0.5;
+            video.play().catch(e => console.log('Автовоспроизведение заблокировано:', e));
+        });
+    </script>
+</body>
+</html>
