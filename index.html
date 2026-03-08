@@ -13,21 +13,26 @@
 
         body {
             font-family: 'Georgia', serif;
-            overflow: hidden;
+            /* overflow: hidden; — УБРАНО: теперь можно прокручивать */
+            overflow-y: auto; /* Разрешаем вертикальную прокрутку */
+            overflow-x: hidden; /* Запрещаем горизонтальную */
             background: linear-gradient(135deg, #ffeef8 0%, #ffe0f0 50%, #ffd6eb 100%);
-            height: 100vh;
+            min-height: 100vh; /* Изменил с height на min-height */
             position: relative;
+            padding: 20px; /* Отступы по краям */
         }
 
         .container {
             width: 100%;
-            height: 100vh;
+            /* height: 100vh; — УБРАНО: контейнер теперь растягивается по контенту */
+            min-height: 100vh; /* Минимальная высота — экран */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             position: relative;
             z-index: 10;
+            padding: 20px 0; /* Вертикальные отступы */
         }
 
         .video-container {
@@ -37,6 +42,7 @@
             box-shadow: 0 20px 60px rgba(255, 105, 180, 0.3);
             background: rgba(255, 255, 255, 0.3);
             padding: 10px;
+            margin-bottom: 20px; /* Отступ снизу */
         }
 
         video {
@@ -48,10 +54,11 @@
         }
 
         .greeting {
-            margin-top: 30px;
+            margin: 30px 0; /* Увеличил отступы сверху и снизу */
             text-align: center;
             color: #d4648a;
             text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+            padding: 0 10px;
         }
 
         .greeting h1 {
@@ -64,11 +71,12 @@
         .greeting p {
             font-size: 1.5em;
             animation: fadeInUp 2s ease-out;
+            line-height: 1.5;
         }
 
         /* Падающие лепестки */
         .petal {
-            position: fixed;
+            position: fixed; /* Оставляем fixed, чтобы лепестки летали по всему экрану */
             top: -10%;
             pointer-events: none;
             animation: fall linear infinite;
@@ -116,8 +124,12 @@
         }
 
         .controls {
-            margin-top: 20px;
+            margin: 20px 0 40px; /* Увеличил нижний отступ */
             z-index: 20;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         button {
@@ -128,7 +140,6 @@
             font-size: 1.1em;
             border-radius: 25px;
             cursor: pointer;
-            margin: 0 10px;
             transition: all 0.3s;
             box-shadow: 0 4px 15px rgba(212, 100, 138, 0.3);
         }
@@ -145,6 +156,9 @@
             .greeting p {
                 font-size: 1.2em;
             }
+            body {
+                padding: 10px;
+            }
         }
     </style>
 </head>
@@ -154,7 +168,7 @@
 
     <div class="container">
         <div class="video-container">
-            <!-- ЗАМЕНИТЕ 'your-video.mp4' НА ПУТЬ К ВАШЕМУ ВИДЕО -->
+            <!-- ЗАМЕНИТЕ 'ваш-файл.mp4' НА ПУТЬ К ВАШЕМУ ВИДЕО -->
             <video id="sakuraVideo" autoplay loop muted playsinline>
                 <source src="гоша.mp4" type="video/mp4">
                 Ваш браузер не поддерживает видео.
